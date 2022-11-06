@@ -1,0 +1,70 @@
+Cassandra [Optional ]
+
+	
+create table lms_book_details_by_publication_category_new(
+BOOK_TITLE text,
+AUTHOR text,
+PUBLISH_DATE date,
+RACK_NUM varchar,
+DATE_ARRIVAL date,
+BOOK_EDITIONS list<text>,
+book_code varchar ,
+PUBLICATION varchar,
+CATEGORY varchar,
+primary key((PUBLICATION,CATEGORY),book_code)
+);
+
+select * from lms_book_details_by_publication_category_new;
+
+--INSERT
+insert into lms_book_details_by_publication_category_new(BOOK_TITLE,AUTHOR,PUBLISH_DATE,RACK_NUM,DATE_ARRIVAL,BOOK_EDITIONS,book_code,PUBLICATION,CATEGORY) values('DEATHA ','SOURBAH','2021-05-05','AB','2019-06-06',['1','2','latest'],'A10','TATA','HORROR');
+
+--TO ADD IN THE LIST :
+UPDATE lms_book_details_by_publication_category_new SET BOOK_EDITIONS = BOOK_EDITIONS +['-9999'] where PUBLICATION = 'LATA' and CATEGORY ='HORROR' and book_code='A12';
+	
+--YOU CANNOT DELETE ELEMENT FROM LIST
+
+--DELETION :
+IMP : WE CANNOT USE DELETE IN Cassendra .SO ONLY WAY TO DELETE use TRUNCATE
+
+	truncate table lms_book_details_by_supplier;
+	
+--adding a col:
+ ALTER TABLE lms_book_details_by_publication_category_new ADD (MY_COMMENT text);  (table_name datatype)
+ 
+
+
+
+
+--SET
+Create table University.Teacher
+(
+id int,
+Name text,
+Email set<text>,
+Primary key(id)
+
+--INSERTING DATA INTO SET
+insert into University.Teacher(id,Name,Email) values(l,'Guru99',{'abc@gmail.com','xyz@hotmail.com'});
+
+--INSERTING ELEMENT INTO MAP
+insert into University.Course(id,prereq) values(1,{'DataScience':'Database', 'Neural Network':'Artificial Intelligence'});
+KEYS : VALUES -->'DataScience':'Database'
+
+--updating the table :
+UPDATE lms_book_details_by_publication_category 
+SET BOOK_TITLE='My_hardcoded_string' where publication='Tata Mcgraw Hill' and category='Java' and book_code =2;
+
+
+
+MAP:
+
+INSERT INTO MAP:
+
+insert into lms_book_details_by_publication_category_new1(BOOK_TITLE,AUTHOR,PUBLISH_DATE,RACK_NUM,DATE_ARRIVAL,BOOK_EDITIONS,book_code,PUBLICATION,CATEGORY) values('DEATHA ','SOURBAH','2021-05-05','AB','2019-06-06',{'name':'sourabh','age':'ten'},'A11','TATA','HORROR');
+
+UPDATE INTO MAP :
+UPDATE lms_book_details_by_publication_category_new1 SET BOOK_EDITIONS =BOOK_EDITIONS + {'name':'harshal','age':'ten'} where PUBLICATION ='TATA' and CATEGORY='HORROR' and book_code='A10';
+
+DELETE FROM MAP:
+UPDATE lms_book_details_by_publication_category_new1 SET BOOK_EDITIONS = BOOK_EDITIONS - {'name','age'} where PUBLICATION ='TATA' and CATEGORY='HORROR' and book_code='A10';

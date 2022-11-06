@@ -1,0 +1,49 @@
+create table t(
+name text,
+rollno int,
+email list<text>,
+
+primary key(rollno,name)
+);
+
+insert into t(name, rollno, email) 
+values ('Prathmesh',1,['prathmesh@gmail.com']);
+
+
+insert into t(name, rollno, email) 
+values ('M',3,['M@gmail.com']);
+
+insert into t(name, rollno, email) 
+values ('S',2,['S@gmail.com']);
+
+
+insert into t(name, rollno, email) 
+values ('L',2,['L@gmail.com']);
+
+insert into t(name, rollno, email) 
+values ('D',1,['D@gmail.com']);
+
+insert into t(name, rollno, email) 
+values ('K',4,['K@gmail.com']);
+
+update t set [email] = [email] + ['D@gmail.com'] where rollno = 2 and name = 'L';
+
+delete from t where rollno=3;
+
+alter table t add (address text);
+
+update t set address='Naa' where rollno=1 and rollno=2 and rollno=4;
+
+alter table t add (pincode set<int>);
+
+update t set pincode = {2,3,135} where rollno=1 and name='D';
+
+update t set pincode = {2,3,1} where rollno=1 and name='D';
+
+alter table t add (kaandh map<int,text>);
+
+update t set kaandh = {2011 : 'World Cup'} where rollno=1 and name='Prathmesh';
+
+update t set kaandh = kaandh + {2014 : 'World'} where rollno=1 and name='Prathmesh';
+
+select kaandh[2014] from t where roolno=1 and name='Prathmesh' and kaandh=2011;
