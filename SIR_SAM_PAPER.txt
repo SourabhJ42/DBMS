@@ -1,0 +1,132 @@
+CREATE TABLE lms_book_details_by_publication_category 
+(
+    book_code INT,
+    CATEGORY TEXT,
+    PUBLISH_DATE date,
+    PUBLICATION TEXT,
+    BOOK_TITLE TEXT,
+    AUTHOR TEXT,
+    PRICE DOUBLE,
+    RACK_NUM TEXT,
+    DATE_ARRIVAL date,  
+    BOOK_EDITIONS list<TEXT>,
+    PRIMARY KEY((PUBLICATION,CATEGORY),book_code)
+)
+with clustering order by (book_code DESC );
+
+
+INSERT into lms_book_details_by_publication_category(book_code,CATEGORY,PUBLISH_DATE,PUBLICATION,BOOK_TITLE,AUTHOR,PRICE,RACK_NUM,DATE_ARRIVAL,BOOK_EDITIONS)
+VALUES(1,'Java','2008-05-01','Tata Mcgraw Hill','Java : The complete edition','Who',500.50,'A1','2020-11-25',['E1','E2','E3']);
+
+INSERT into lms_book_details_by_publication_category(
+    book_code,
+    CATEGORY,
+    PUBLISH_DATE,
+    PUBLICATION,
+    BOOK_TITLE,
+    AUTHOR,
+    PRICE,
+    RACK_NUM,
+    DATE_ARRIVAL,
+   BOOK_EDITIONS
+)
+VALUES(
+    2,
+    'Java',
+    '2022-05-01',
+    'Tata Mcgraw Hill',
+    'Java : The ultimate edition',
+    'Another',
+    1500.50,
+    'A1',
+    '2001-05-01',
+    ['E4','E8','E11']
+);
+
+
+INSERT into lms_book_details_by_publication_category(
+    book_code,
+    CATEGORY,
+    PUBLISH_DATE,
+    PUBLICATION,
+    BOOK_TITLE,
+    AUTHOR,
+    PRICE,
+    RACK_NUM,
+    DATE_ARRIVAL,
+   BOOK_EDITIONS
+)
+VALUES(
+    3,
+    'Python',
+    '2009-05-01',
+    'Penguin',
+    'The guide to Python',
+    'Brother',
+    420.50,
+    'A1',
+    '20016-05-01',
+    ['E3','E4','E5']
+);
+
+
+INSERT into lms_book_details_by_publication_category(
+    book_code,
+    CATEGORY,
+    PUBLISH_DATE,
+    PUBLICATION,
+    BOOK_TITLE,
+    AUTHOR,
+    PRICE,
+    RACK_NUM,
+    DATE_ARRIVAL,
+  BOOK_EDITIONS
+)
+VALUES(
+    4,
+    'C++',
+    '2011-05-01',
+    'Tata Mcgraw Hill',
+    'C++ : The complete edition',
+    'Who',
+    250.50,
+    'C3',
+    '2022-05-01',
+    ['E1','E2','E3']
+);
+
+
+INSERT into lms_book_details_by_publication_category(
+    book_code,
+    CATEGORY,
+    PUBLISH_DATE,
+    PUBLICATION,
+    BOOK_TITLE,
+    AUTHOR,
+    PRICE,
+    RACK_NUM,
+    DATE_ARRIVAL,
+   BOOK_EDITIONS
+)
+VALUES(
+    5,
+    'Java',
+    '2005-05-01',
+    'Tata Mcgraw Hill',
+    'C# : The complete edition',
+    'New',
+    1200.50,
+    'A2',
+    '2021-05-01',
+    ['E1','E2','E3']
+);
+
+
+UPDATE lms_book_details_by_publication_category 
+SET BOOK_EDITIONS=BOOK_EDITIONS+['-9999'] where publication='Tata Mcgraw Hill' and category='Java' and book_code =1;
+
+alter table lms_book_details_by_publication_category add (my_comments text );
+select * from lms_book_details_by_publication_category;
+
+UPDATE lms_book_details_by_publication_category 
+SET BOOK_TITLE='My_hardcoded_string' where publication='Tata Mcgraw Hill' and category='Java' and book_code =2;
