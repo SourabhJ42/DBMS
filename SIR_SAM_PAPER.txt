@@ -1,3 +1,5 @@
+-----------------------CASSENDRA-------------------------
+
 CREATE TABLE lms_book_details_by_publication_category 
 (
     book_code INT,
@@ -130,3 +132,146 @@ select * from lms_book_details_by_publication_category;
 
 UPDATE lms_book_details_by_publication_category 
 SET BOOK_TITLE='My_hardcoded_string' where publication='Tata Mcgraw Hill' and category='Java' and book_code =2;
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------
+-----------------------ORACLE----------------------------
+
+drop table employees;
+create table employees (
+empno number(3),
+name varchar2(30),
+job varchar2(20),
+hiredate date,
+salary number(10,2),
+commission number(8,2),
+deptno number(3),
+CONSTRAINT PK_EMP_NO PRIMARY KEY (empno),  
+CONSTRAINT CONS_FOR FOREIGN KEY (deptno) REFERENCES departments(deptno)  
+);
+
+drop table departments;
+create table departments (
+deptno number(3),
+name varchar2(30),
+location varchar2(20),
+CONSTRAINT PK_DEPT_NO PRIMARY KEY (deptno)    
+);
+
+
+insert into employees values
+(
+1,
+'Saurabh',
+'Data analyst',
+to_date('01-JAN-22','DD-MON-YY'),
+9800.00,
+900.00,
+2
+);
+
+
+insert into employees values
+(
+2,
+'Someone',
+'Data Scientist',
+to_date('12-MAR-20','DD-MON-YY'),
+4200.00,
+44.00,
+2
+);
+
+insert into employees values
+(
+3,
+'Sam',
+'Senior Researcher',
+to_date('24-JUL-18','DD-MON-YY'),
+42000.69,
+4090.00,
+1
+);
+
+insert into employees values
+(
+4,
+'Pankaj',
+'Operations Officer',
+to_date('22-MAY-19','DD-MON-YY'),
+1896.00,
+850.00,
+3
+);
+
+insert into employees values
+(
+5,
+'Pawan',
+'Senior Sales Manager',
+to_date('18-APR-20','DD-MON-YY'),
+8000.00,
+7856.00,
+3
+);
+
+insert into employees values
+(
+6,
+'Yash',
+'Junior Researcher',
+to_date('31-AUG-21','DD-MON-YY'),
+1050.69,
+409.00,
+1
+);
+
+
+insert into departments values
+(
+1,
+'Engineering',
+'Pune'
+);
+
+insert into departments values
+(
+2,
+'Data Analytics',
+'Bangalore'
+);
+
+insert into departments values
+(
+3,
+'Sales and HR',
+'Delhi'
+);
+
+
+select * from employees;
+
+select * from departments;
+
+select emp.name from employees emp inner join departments dep 
+on emp.deptno=dep.deptno where dep.name='Engineering' and salary>=1000 
+and salary <=10000;
+
+select deptno,count(*) as Employee_Count from employees group by deptno;
+
+select * from employees;
+update employees set commission= commission*(1.6);
+select * from employees;
+
+delete from employees where commission<1000;
+
+
+
+------------------------MONGO-----------------------------
+
+db.getCollection("supplier").find({})
+db.supplier.find({ "address" :{$in:[ /pune/i,/mumbai/i,/bangalore/i]}});
+
+db.supplier.find({"address": {$in: [/pune/i]} , rating :{$gt: 3}},{});
+db.supplier.find({"items_supplied": {$in: [/tea/i]}},{});
+db.supplier.deleteMany({"address":{$in:[/pune/i]}});
+db.supplier.updateMany({},{$set : {"contact" : null}}) 
