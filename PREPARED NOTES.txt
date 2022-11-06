@@ -1,0 +1,314 @@
+--CRUD OPERATIONS 
+alter table lms_members add (ADDRESS varchar2(100),	CONTACT number);
+alter table lms_members modify (address varchar2(3999));
+alter table lms_members drop (	CONTACT ); 
+alter table lms_members rename column ADDRESS to member_ddress;
+
+
+--RENAME TABLE
+rename lms_members to lms_members_practice;
+
+describe lms_members_practice;
+
+
+
+--UPDATE
+insert into lms_members_practice(MEMBER_ID,MEMBER_NAME,CITY,DATE_REGISTER,DATE_EXPIRE,MEMBERSHIP_STATUS,member_address) values ('LM009','Nikita','Delhi',to_date('12-12-2012','dd-mm-yyyy'),to_date('12-12-2021','dd-mm-yyyy'),'Temporary','rajori road');
+/* update all the contents of the table for a particular column */
+update  MY_FIRST_TABLE  set my_float_column = 5.9;
+
+/* update all the contents of the table for a particular column with a filter clause in action */
+update  MY_FIRST_TABLE  set my_float_column = 5.9 where my_number_column=1 ;
+
+--UPDATE FRO PERTICULAR ROW
+update test_unique set city = 'mumbai' where rownum =1;
+
+
+
+
+CREATE TABLE MY_FIRST_TABLE
+(
+ROLLNO NUMBER,
+NAME VARCHAR2(100),
+DATE_OF_ENROLLMENT DATE,
+constraint cons1 primary key(rollno)
+);
+
+
+
+
+select * from user_constraints ;
+-- DROPPING THE CONSTRAINT
+ALTER TABLE MY_FIRST_TABLE drop constraint cons1;
+
+
+-- adding THE CONSTRAINT
+ALTER TABLE MY_FIRST_TABLE add constraint cons1 primary key(rollno);
+
+
+
+
+
+CREATE TABLE MY_FIRST_TABLE
+(
+ROLLNO NUMBER,
+NAME VARCHAR2(100),
+DATE_OF_ENROLLMENT DATE,
+constraint cons1 primary key(rollno),
+constraint cons2 unique(NAME)
+);
+
+--TO CHECK CONSTRAINT WE ADDED
+select  * FrOM USER_constraints where table_name = 'MY_FIRST_TABLE' ;
+
+
+-- a) Not null  DATE_OF_ENROLLMENT (not null )
+drop TABLE MY_FIRST_TABLE;
+
+CREATE TABLE MY_FIRST_TABLE
+(
+ROLLNO NUMBER,
+NAME VARCHAR2(100) ,
+DATE_OF_ENROLLMENT date constraint cons3 not null ,
+constraint cons1 primary key(rollno),
+constraint cons2 unique(name)
+);
+
+-- DROPPING THE CONSTRAINT
+ALTER TABLE MY_FIRST_TABLE MODIFY (DATE_OF_ENROLLMENT NULL);
+
+-- adding THE CONSTRAINT
+ALTER TABLE MY_FIRST_TABLE MODIFY (DATE_OF_ENROLLMENT NOT NULL);
+
+--CHECK CONSTRAINT
+CREATE TABLE MY_FIRST_TABLE
+(
+ROLLNO NUMBER,
+NAME VARCHAR2(100) ,
+DATE_OF_ENROLLMENT date constraint cons3 not null ,
+DATE_OF_BIRTH DATE,
+constraint cons1 primary key(rollno),
+constraint cons2 unique(name),
+CONSTRAINT cons4 CHECK(DATE_OF_BIRTH > to_date('01-01-2001','dd-mm-yyyy') )
+);
+
+-- DROPPING THE CONSTRAINT
+ALTER TABLE MY_FIRST_TABLE drop constraint cons4
+
+-- adding THE CONSTRAINT
+ALTER TABLE MY_FIRST_TABLE add constraint CONS4 CHECK(DATE_OF_BIRTH > to_date('01-01-2001','dd-mm-yyyy') );
+WE CAN SET ANY CONDITION IN CHECK CONSTRAINT.
+
+--- Foreign key demo ...............(IMP)
+DROP TABLE  MY_FIRST_TABLE;
+DROP TABLE  MY_DEPARTMENT_TABLE;
+
+
+CREATE TABLE MY_DEPARTMENT_TABLE
+(
+DEPT_ID NUMBER ,
+DEPT_NAME VARCHAR2(100),
+constraint cons5 PRIMARY KEY(DEPT_ID)
+);
+
+
+CREATE TABLE MY_FIRST_TABLE
+(
+ROLLNO NUMBER ,
+NAME VARCHAR2(100) unique,
+DEPARTMENT_ID  NUMBER ,
+constraint cons6 primary key(rollno),
+CONSTRAINT CONS_FOR FOREIGN KEY (DEPARTMENT_ID) REFERENCES MY_DEPARTMENT_TABLE(DEPT_ID)
+);
+
+
+VIMP :
+{Defining a foreign key on a table column means that any record in that table must have a matching record in the referenced table. So your foreign key on EMPLOYEE_ID means you cannot insert a record in SALES before 
+you have inserted the appropriate record into EMPLOYEE. 
+You'll also need parent records in CUSTOMER and PRODUCTS.
+}
+
+{PIPELINE}:
+EG:
+select MEMBER_NAME
+from lms_members
+where lower(CITY) = 'pune';
+GROUP BY....
+ORDER BY....ASC/DESC
+
+
+--{DECODE/SIMPLE CASE/SEARCHED CASE}
+SELECT 
+mem.CITY my_city,
+DECODE(CITY,'CHENNAI','RENAMED_CHENNAI','PUNE','RENAMED_PUNE','DEFAULT_VALUE')  DECODE_EXP,
+CASE mem.CITY
+    WHEN 'CHENNAI' THEN 'RENAMED_CHENNAI'
+    WHEN 'PUNE' THEN 'RENAMED_PUNE'
+    ELSE
+    'DEFAULT_VALUE' 
+END SIMPLE_CASE_EXPR,
+CASE 
+    WHEN mem.CITY = 'CHENNAI' THEN 'RENAMED_CHENNAI'
+    WHEN mem.CITY = 'PUNE' THEN 'RENAMED_PUNE'
+    ELSE
+    'DEFAULT_VALUE' 
+END SEARCHED_CASE_EXPR
+FROM LMS_MEMBERS mem;
+
+Distinct : UNIQUE
+
+--------------------------------
+What Group by and Having is ? What is the need for it ?
+--------------------------------
+
+-- group by on no column
+select count(*) cnt
+from lms_members
+having count(*) > 12;
+
+-- group by on 1 column
+select MEMBERSHIP_STATUS, count(*) cnt
+from lms_members lm
+group by MEMBERSHIP_STATUS
+having count(*) > 12;
+
+
+PROBLEM:?
+create table EMPLOYESS
+(
+EMPNO NUMBER(3),
+NAME VARCHAR2(20),
+JOB VARCHAR2(30),
+SALARY NUMBER(20),
+HIREDAY DATE,
+COMMISSION NUMBER(10),
+DEPTNO NUMBER(10),
+CONSTRAINT CONST_1 PRIMARY KEY (EMPNO)
+);
+
+correct:
+
+create table EMPLOYEESS
+(
+EMPNO NUMBER(3),
+NAME VARCHAR2(20),
+JOB VARCHAR2(30),
+SALARY NUMBER(10,2),
+HIREDAY date,
+COMMISSION number(10,2),
+DEPTNO NUMBER(10,2),
+CONSTRAINT CONST_1 PRIMARY KEY (EMPNO)
+);
+
+
+WRONG:
+create table empl(
+empno number,
+name varchar2(20),
+job varchar2(20),
+salary number,
+hireday date,
+commision number,
+deptid number
+);
+
+correct:
+create table empl(
+empno number,
+name varchar2(20),
+job varchar2(20),
+salary number,
+hireday date,
+commision number,
+deptid number
+);
+
+{VVIMP}we dont need to give size bracket to number.
+
+{VVIMP} :COUNT AND GROUP BY WORK LIKE BROTHERS SO WHEN WE NEED COUNT WE NEED GROUP BY
+
+
+$CASSENDRA:$
+
+CASSENDRA Set
+Create table University.Teacher
+(
+id int,
+Name text,
+Email set<text>,
+Primary key(id)
+
+--INSERTING DATA INTO SET
+insert into University.Teacher(id,Name,Email) values(l,'Guru99',{'abc@gmail.com','xyz@hotmail.com'});
+
+--INSERTING DATA INTO LIST
+insert into University.Teacher(id,Name,Email) values(2,'Hamilton',{'hamilton@hotmail.com'},[Data Science']);
+
+
+CREATING TABLE :
+create table lms_app(
+member_name text,
+date_register date,
+membership_status text,
+issue_date date,
+book_issue_id int,
+primary key (member_name,date_register,issue_date,book_issue_id ),
+) with clustering order by (date_register desc,issue_date asc,book_issue_id asc);
+
+RULES:
+	1. BESIDE PREIMARY KEY ALL OTHER MEMEBERS THAT WE SPECIFIED IN PRIMARY KEY BRACKET THAT MUST BE ADDED TO CUSLTING ORDER IF WE ARE CREATING THE 
+	THE CLUSTING .
+	2. THE ORDER OF ELEMENTS MUST BE SAME IN BOTH PRIMARY KEY AND CLUSTEING KEY .
+	
+Table rename :
+rename lms_book_details_by_supplier to books_supplied_practice;
+
+
+--DELETION :
+IMP : WE CANNOT USE DELETE IN Cassendra .SO ONLY WAY TO DELETE use TRUNCATE
+
+	truncate table lms_book_details_by_supplier;
+	
+--adding a col:
+ ALTER TABLE lms_book_details_by_publication_category_new ADD (MY_COMMENT text);  (table_name datatype)
+	
+create table lms_book_details_by_publication_category  (
+PUBLICATION text,
+CATEGORY text,
+BOOK_CODE int,
+BOOK_TITLE text,
+AUTHOR text,
+PUBLISH_DATE date,
+PRICE int,
+RACK_NUM int,
+DATE_ARRIVAL date,
+BOOK_EDITIONS LIST<text>, 
+primary key ((PUBLICATION,CATEGORY),BOOK_CODE)
+)
+
+INSERT INTO lms_book_details_by_publication_category(PUBLICATION,CATEGORY,BOOK_CODE,BOOK_TITLE,AUTHOR,PUBLISH_DATE,PRICE,RACK_NUM,DATE_ARRIVAL,BOOK_EDITIONS)
+VALUES('raj_agency','python',1,'Python JW','Atharva','2000-10-12',1234,2,'2021-05-05',['1.0','2.0','latest']);
+
+
+		
+
+
+MONGO DB:
+
+ --UPDATE ($set Command)
+TO UPDATE/ADD VALUES IN ALREADY CREATED TABLE WE CAN USE UPDATE COMMAND IN FOLLOWING WAY : WHERE CONDN : "collage" :"Pratinidhi"
+db.sourabh.updateOne({"collage":"Pratinidhi"},{$set :{"Year":"2017","degree":"HSC"}});
+db.my_first_collectIon.updateOne({},{$set : {my_third_field : "Updated" } })
+db.my_first_collectIon.updateMany({},{$set : {my_fourth_field : "Updated_again" } })
+db.LMS_MEMBERS.updateMany({CITY:"BOGUS_CITY"},{$set:{MEMBERSHIP_STATUS:"Permanent" , MEMBER_NAME : 'Bogus_member'} },{upsert : true});
+
+--DELETE:
+db.getCollection("my_first_collection").deleteOne({"_id":"My_string"});
+db.my_first_collection.deleteOne({"_id":"My_string"});
+db.customer.find({ "Cart.added_products": {$elemMatch: { "product_id" : "X001"} }  },{});
+
+The 
+$push
+ operator appends a specified value to an array. WORK ONLY FOR ARRAY
+ 
+$not vs & ne 
